@@ -15,3 +15,10 @@ docker compose run transpiler
 Here's a breakdown of our folder structure:
 * stackv2_scripts: contains code for processing the Stack v2 dataset. Specifically, it fetches all available CUDA files, organizes them according to their original repository file-tree structure, clones repositories with the highest number of CUDA files, and extracts corresponding CPU-GPU assembly
 * hipify: includes code for converting CUDA files to HIP using AMD’s HIPify tool.
+
+## Dataset
+Our finished dataset processed using the tools available in this repository can be accessed through the following links:
+- [Stackv2 samples](https://huggingface.co/datasets/GustavoStahl/transpiler-gpu-stackv2-dataset)
+- [Synthetic samples](https://huggingface.co/datasets/GustavoStahl/transpiler-gpu-synthetic-dataset)
+- [OpenCL samples](https://huggingface.co/datasets/GustavoStahl/transpiler-gpu-opencl-dataset)
+- [Benchmark](https://huggingface.co/datasets/ahmedheakl/cass-bench)
