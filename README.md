@@ -18,7 +18,5 @@ Here's a breakdown of our folder structure:
 
 ## Dataset
 Our finished dataset processed using the tools available in this repository can be accessed through the following links:
-- [Stackv2 samples](https://huggingface.co/datasets/GustavoStahlMBZUAI/transpiler-gpu-stackv2-dataset)
-- [Synthetic samples](https://huggingface.co/datasets/GustavoStahlMBZUAI/transpiler-gpu-synthetic-dataset)
-- [OpenCL samples](https://huggingface.co/datasets/GustavoStahlMBZUAI/transpiler-gpu-opencl-dataset)
+- [Dataset](https://huggingface.co/datasets/MBZUAI/cass)
 - [Benchmark](https://huggingface.co/datasets/Sarim-Hash/cass_bench_new_one)
