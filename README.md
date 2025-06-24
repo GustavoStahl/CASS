@@ -41,7 +41,7 @@
 
 ## Table of Contents
 - [🧠 Overview](#-overview)
-- [🏗️ Data Construction Pipeline](#-data-construction-pipeline)
+- [🏗️ Data Construction Pipeline](#%EF%B8%8F-data-construction-pipeline)
 - [📊 Results](#-results)
 - [🧪 Inference](#-inference)
 - [📚 Citation](#-citation)
