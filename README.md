@@ -51,17 +51,17 @@ We introduce CASS, the first large-scale dataset and model suite for cross-archi
 ---
 
 
-## Data Construction Pipeline
+## (1) Data Construction Pipeline
 Since the methodology used to construct our dataset consists of multiple independent modules, we have organized the scripts into separate folders to ensure clarity and modularity. For questions regarding individual components (e.g., Synthetic Pipeline, OpenCL Pipeline), please refer to their respective directories for tailored instructions.
 
-## Compiler Stack
+### Compiler Stack
 
 <p align="center">
   <img src="assets/gpu-compiler-stack.png" width="90%" alt="CASS Overview" />
 </p>
 
 
-    The Nvidia (left) and AMD (right) stacks illustrate the compilation process for CUDA and HIP. Blue denotes device-side steps; green denotes host-side steps. Nvidia’s stack is opaque; accessing device assembly (SASS) requires first compiling to binary, then using cuobjdump. In contrast, AMD’s process is transparent, allowing direct inspection and modification of device assembly (RDNA3) before host integration.
+> The Nvidia (left) and AMD (right) stacks illustrate the compilation process for CUDA and HIP. Blue denotes device-side steps; green denotes host-side steps. Nvidia’s stack is opaque; accessing device assembly (SASS) requires first compiling to binary, then using cuobjdump. In contrast, AMD’s process is transparent, allowing direct inspection and modification of device assembly (RDNA3) before host integration.
 
 ### Hardware setup
 Our scripts require a GPU to be present in the user’s machine. The CUDA portion of our pipeline requires an NVIDIA GPU, while the HIP portion requires an AMD GPU. The provided code was tested on an AMD RX 7900, an NVIDIA A100, and an NVIDIA RTX 4090.
@@ -80,3 +80,57 @@ Here's a breakdown of our folder structure:
 
 ### Generated Data
 Refer to [Huggingface Dataset and Benchmark](https://huggingface.co/datasets/MBZUAI/cass) for details on how to load the dataset and benchmark.
+
+
+## (2) Inference
+We provide a simple inference script to run the CASS models. The script supports both source-to-source and assembly-to-assembly translation. 
+
+### Available Models
+We provide multiple models with multiple parameter scales.
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr>
+    <th>Model</th>
+    <th>Type</th>
+    <th>Link</th>
+  </tr>
+  <tr>
+    <td>CASS-src-1.5B</td>
+    <td rowspan="3">Source-to-Source</td>
+    <td><a href="https://huggingface.co/ahmedheakl/cass-src-1.5b">HuggingFace</a></td>
+  </tr>
+  <tr>
+    <td>CASS-src-3B</td>
+    <td><a href="https://huggingface.co/ahmedheakl/cass-src-3b">HuggingFace</a></td>
+  </tr>
+  <tr>
+    <td>CASS-src-7B</td>
+    <td><a href="https://huggingface.co/ahmedheakl/cass-src-7b">HuggingFace</a></td>
+  </tr>
+  <tr>
+    <td>CASS-smA100-1.5B</td>
+    <td rowspan="3">Assembly-to-Assembly (sm_80, A100)</td>
+    <td><a href="https://huggingface.co/ahmedheakl/cass-smA100-1.5b">HuggingFace</a></td>
+  </tr>
+  <tr>
+    <td>CASS-smA100-3B</td>
+    <td><a href="https://huggingface.co/ahmedheakl/cass-smA100-3b">HuggingFace</a></td>
+  </tr>
+  <tr>
+    <td>CASS-smA100-7B</td>
+    <td><a href="https://huggingface.co/ahmedheakl/cass-smA100-7b">HuggingFace</a></td>
+  </tr>
+  <tr>
+    <td>CASS-sm4090-1.5B</td>
+    <td rowspan="3">Assembly-to-Assembly (sm_89, RTX4090)</td>
+    <td><a href="https://huggingface.co/ahmedheakl/cass-sm4090-1.5b">HuggingFace</a></td>
+  </tr>
+  <tr>
+    <td>CASS-sm4090-3B</td>
+    <td><a href="https://huggingface.co/ahmedheakl/cass-sm4090-3b">HuggingFace</a></td>
+  </tr>
+  <tr>
+    <td>CASS-sm4090-7B</td>
+    <td>TBR</td>
+  </tr>
+</table>
+
