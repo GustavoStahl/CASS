@@ -136,10 +136,80 @@ We provide multiple models with multiple parameter scales.
 </table>
 
 
+### Usage
+To run inference, you just need `transformers` and `torch` installed. Here is a simple example of how to run inference using the CASS models:
+
+- Source-to-Source Translation (CUDA ↔ HIP):
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model_name = "ahmedheakl/cass-src-3b" # replace with other models (1.5B, 7B) as needed
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    torch_dtype="auto",
+    device_map="auto",
+    # attn_implementation="flash_attention_2", uncomment if you have flash attention 2 installed
+)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+cuda_code = """
+#include <stdio.h>
+__global__ void add(int *a, int *b, int *c) {
+    int idx = threadIdx.x + blockIdx.x * blockDim.x;
+    c[idx] = a[idx] + b[idx];
+}
+int main() {
+    int a[5] = {1, 2, 3, 4, 5};
+    int b[5] = {10, 20, 30, 40, 50};
+    int c[5];
+    int *d_a, *d_b, *d_c;
+    cudaMalloc((void**)&d_a, 5 * sizeof(int));
+    cudaMalloc((void**)&d_b, 5 * sizeof(int));
+    cudaMalloc((void**)&d_c, 5 * sizeof(int));  
+    cudaMemcpy(d_a, a, 5 * sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_b, b, 5 * sizeof(int), cudaMemcpyHostToDevice
+    );
+    add<<<1, 5>>>(d_a, d_b, d_c);
+    cudaMemcpy(c, d_c, 5 * sizeof(int), cudaMemcpyDeviceToHost
+    );
+    for (int i = 0; i < 5; i++) {
+        printf("%d ", c[i]);    
+    }
+    cudaFree(d_a);
+    cudaFree(d_b);
+    cudaFree(d_c);
+    return 0;
+}
+"""
+
+prompt = f"Convert the following CUDA code to AMD GPU code:\n```cuda\n{cuda_code}\n```"
+messages = [
+    {"role": "user", "content": prompt}
+]
+text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True
+)
+model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
+
+print("Generating AMD code...")
+generated_ids = model.generate(
+    **model_inputs,
+    max_new_tokens=4096,
+)
+generated_ids = [
+    output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
+]
+
+response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+amd_code = response.split("```amd")[-1].split("```")[0]
+print("Converted AMD Code:\n", amd_code)
+```
+
 ## Todos
 
-- [ ] Release training 
-- [ ] Release evaluation scripts.
+- [ ] Release training code
+- [ ] Release evaluation scripts
 
 
 ## Citation
