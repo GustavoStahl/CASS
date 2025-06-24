@@ -40,11 +40,11 @@
 - 📢 **June 2025**: Paper and inference code released!
 
 ## Table of Contents
-- [🧠 Overview](#🧠-overview)
-- [🏗️ Data Construction Pipeline](#🏗️-data-construction-pipeline)
-- [📊 Results](#📊-results)
-- [🧪 Inference](#🧪-inference)
-- [📚 Citation](#📚-citation)
+- [🧠 Overview](#-overview)
+- [🏗️ Data Construction Pipeline](#-data-construction-pipeline)
+- [📊 Results](#-results)
+- [🧪 Inference](#-inference)
+- [📚 Citation](#-citation)
 
 
 
