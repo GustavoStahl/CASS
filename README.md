@@ -223,6 +223,113 @@ amd_code = response.split("```amd")[-1].split("```")[0]
 print("Converted AMD Code:\n", amd_code)
 ```
 
+- Assembly-to-Assembly Translation (SASS ↔ RDNA3):
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model_name = "ahmedheakl/cass-smA100-3b" # replace with other models (1.5B, 7B) or (sm4090) as needed
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    torch_dtype="auto",
+    device_map="auto",
+    # attn_implementation="flash_attention_2", uncomment if you have flash attention 2 installed
+)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+cuda_device_assembly = """code for sm_80
+Function : _Z3addPiS_S_i
+.headerflags @"EF_CUDA_TEXMODE_UNIFIED EF_CUDA_64BIT_ADDRESS EF_CUDA_SM80 EF_CUDA_VIRTUAL_SM(EF_CUDA_SM80)"
+/*0000*/ MOV R1, c[0x0][0x28] ; /* 0x00000a0000017a02 */
+/* 0x000fc40000000f00 */
+/*0010*/ S2R R6, SR_TID.X ; /* 0x0000000000067919 */
+/* 0x000e280000002100 */
+/*0020*/ S2R R3, SR_CTAID.X ; /* 0x0000000000037919 */
+/* 0x000e240000002500 */
+/*0030*/ IMAD R6, R3, c[0x0][0x0], R6 ; /* 0x0000000003067a24 */
+/* 0x001fca00078e0206 */
+/*0040*/ ISETP.GE.AND P0, PT, R6, c[0x0][0x178], PT ; /* 0x00005e0006007a0c */
+/* 0x000fda0003f06270 */
+/*0050*/ @P0 EXIT ; /* 0x000000000000094d */
+/* 0x000fea0003800000 */
+/*0060*/ HFMA2.MMA R7, -RZ, RZ, 0, 2.384185791015625e-07 ; /* 0x00000004ff077435 */
+/* 0x000fe200000001ff */
+/*0070*/ ULDC.64 UR4, c[0x0][0x118] ; /* 0x0000460000047ab9 */
+/* 0x000fd20000000a00 */
+/*0080*/ IMAD.WIDE R4, R6, R7, c[0x0][0x168] ; /* 0x00005a0006047625 */
+/* 0x000fc800078e0207 */
+/*0090*/ IMAD.WIDE R2, R6.reuse, R7.reuse, c[0x0][0x160] ; /* 0x0000580006027625 */
+/* 0x0c0fe400078e0207 */
+/*00a0*/ LDG.E R4, [R4.64] ; /* 0x0000000404047981 */
+/* 0x000ea8000c1e1900 */
+/*00b0*/ LDG.E R3, [R2.64] ; /* 0x0000000402037981 */
+/* 0x000ea2000c1e1900 */
+/*00c0*/ IMAD.WIDE R6, R6, R7, c[0x0][0x170] ; /* 0x00005c0006067625 */
+/* 0x000fe200078e0207 */
+/*00d0*/ IADD3 R9, R4, R3, RZ ; /* 0x0000000304097210 */
+/* 0x004fca0007ffe0ff */
+/*00e0*/ STG.E [R6.64], R9 ; /* 0x0000000906007986 */
+/* 0x000fe2000c101904 */
+/*00f0*/ EXIT ; /* 0x000000000000794d */
+/* 0x000fea0003800000 */
+/*0100*/ BRA 0x100; /* 0xfffffff000007947 */
+/* 0x000fc0000383ffff */
+/*0110*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*0120*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*0130*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*0140*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*0150*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*0160*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*0170*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*0180*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*0190*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*01a0*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*01b0*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*01c0*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*01d0*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*01e0*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+/*01f0*/ NOP; /* 0x0000000000007918 */
+/* 0x000fc00000000000 */
+..........
+"""
+
+device_prompt = f"""Convert the following CUDA device assembly code to HIP device assembly:\n```cudaasm\n{cuda_device_assembly}\n```"""
+messages = [
+    {"role": "user", "content": device_prompt}
+]
+text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True
+)
+model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
+
+print("Generating AMD device code...")
+generated_ids = model.generate(
+    **model_inputs,
+    max_new_tokens=4096,
+)
+generated_ids = [
+    output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
+]
+
+response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+print(response)
+amd_code = response.split("```hipasm")[-1].split("```")[0]
+print("Converted AMD Device Code:\n", amd_code)
+```
 
 ## ✅ Todos
 
