@@ -39,16 +39,16 @@
 
 - 📢 **June 2025**: Paper and inference code released!
 
-<!-- table of content -->
 ## Table of Contents
-- [Overview](#overview)
-- [Data Construction Pipeline](#data-construction-pipeline)
-- [Results](#results)
-- [Inference](#inference)
-- [Citation](#citation)
+- [🧠 Overview](#-overview)
+- [🏗️ Data Construction Pipeline](#-data-construction-pipeline)
+- [📊 Results](#-results)
+- [🧪 Inference](#-inference)
+- [📚 Citation](#-citation)
 
 
-## Overview
+
+## 🧠 Overview
 
 We introduce CASS, the first large-scale dataset and model suite for cross-architecture GPU code transpilation, targeting both source-level (CUDA ↔ HIP) and assembly-level (Nvidia SASS ↔ AMD RDNA3) translation. The dataset comprises 70k verified code pairs across host and device, addressing a critical gap in low-level GPU code portability. Leveraging this resource, we train the CASS family of domain-specific language models, achieving 95% source translation accuracy and 37.5% assembly translation accuracy, substantially outperforming commercial baselines such as GPT-4o, Claude, and Hipify. Our generated code matches native performance in over 85% of test cases, preserving runtime and memory behavior. To support rigorous evaluation, we introduce CASS-Bench, a curated benchmark spanning 16 GPU domains with ground-truth execution. All data, models, and evaluation tools are released as open source to foster progress in GPU compiler tooling, binary compatibility, and LLM-guided hardware translation.
 
@@ -60,10 +60,10 @@ We introduce CASS, the first large-scale dataset and model suite for cross-archi
 ---
 
 
-## Data Construction Pipeline
+## 🏗️ Data Construction Pipeline
 Since the methodology used to construct our dataset consists of multiple independent modules, we have organized the scripts into separate folders to ensure clarity and modularity. For questions regarding individual components (e.g., Synthetic Pipeline, OpenCL Pipeline), please refer to their respective directories for tailored instructions.
 
-### Compiler Stack
+### 🧵 Compiler Stack
 
 <p align="center">
   <img src="assets/gpu-compiler-stack.png" width="90%" alt="CASS Overview" />
@@ -72,25 +72,25 @@ Since the methodology used to construct our dataset consists of multiple indepen
 
 > The Nvidia (left) and AMD (right) stacks illustrate the compilation process for CUDA and HIP. Blue denotes device-side steps; green denotes host-side steps. Nvidia’s stack is opaque; accessing device assembly (SASS) requires first compiling to binary, then using cuobjdump. In contrast, AMD’s process is transparent, allowing direct inspection and modification of device assembly (RDNA3) before host integration.
 
-### Hardware setup
+### 💻 Hardware setup
 Our scripts require a GPU to be present in the user’s machine. The CUDA portion of our pipeline requires an NVIDIA GPU, while the HIP portion requires an AMD GPU. The provided code was tested on an AMD RX 7900, an NVIDIA A100, and an NVIDIA RTX 4090.
 
-### Execution environment 
+### 🐳 Execution environment 
 To ensure reproducibility, we provide a Docker container that manages all dependencies. To build and run it, execute:
 ```bash
 docker build -t transpiler .
 docker compose run transpiler
 ```
 
-### Subfolders
+### 📁 Subfolders
 Here's a breakdown of our folder structure:
 * `stackv2_scripts`: contains code for processing the Stack v2 dataset. Specifically, it fetches all available CUDA files, organizes them according to their original repository file-tree structure, clones repositories with the highest number of CUDA files, and extracts corresponding CPU-GPU assembly
 * `hipify`: includes code for converting CUDA files to HIP using AMD’s HIPify tool.
 
-### Generated Data
+### 📦 Generated Data
 Refer to [Huggingface Dataset and Benchmark](https://huggingface.co/datasets/MBZUAI/cass) for details on how to load the dataset and benchmark.
 
-## Results
+## 📊 Results
 <table> 
   <thead> 
   <tr> 
@@ -151,10 +151,10 @@ Refer to [Huggingface Dataset and Benchmark](https://huggingface.co/datasets/MBZ
   </tbody> 
 </table>
 
-## Inference
+## 🧪 Inference
 We provide a simple inference script to run the CASS models. The script supports both source-to-source and assembly-to-assembly translation. 
 
-### Available Models
+### 🧠 Available Models
 We provide multiple models with multiple parameter scales.
 <table border="1" cellpadding="6" cellspacing="0">
   <tr>
@@ -204,7 +204,7 @@ We provide multiple models with multiple parameter scales.
 </table>
 
 
-### Usage
+### ⚙️ Usage
 To run inference, you just need `transformers` and `torch` installed. Here is a simple example of how to run inference using the CASS models:
 
 - Source-to-Source Translation (CUDA ↔ HIP):
@@ -275,13 +275,13 @@ print("Converted AMD Code:\n", amd_code)
 ```
 
 
-## Todos
+## ✅ Todos
 
 - [ ] Release training code
 - [ ] Release evaluation scripts
 
 
-## Citation
+## 📚 Citation
 If you are using CASS in your research or application, please cite us using this BibTeX:
 
 ```bibtex
