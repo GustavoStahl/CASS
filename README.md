@@ -135,3 +135,15 @@ We provide multiple models with multiple parameter scales.
   </tr>
 </table>
 
+
+## Citation
+If you are using CASS in your research or application, please cite us using this BibTeX:
+
+```bibtex
+@article{heakl2025cass,
+  title={CASS: Nvidia to AMD Transpilation with Data, Models, and Benchmark},
+  author={Heakl, Ahmed and Hashmi, Sarim and Stahl, Gustavo Bertolo and Han, Seung Hun Eddie and Khan, Salman and Mahmoud, Abdulrahman},
+  journal={arXiv preprint arXiv:2505.16968},
+  year={2025}
+}
+```
