@@ -40,11 +40,11 @@
 - 📢 **June 2025**: Paper and inference code released!
 
 ## Table of Contents
-- [🧠 Overview](#-overview)
-- [🏗️ Data Construction Pipeline](#-data-construction-pipeline)
-- [📊 Results](#-results)
-- [🧪 Inference](#-inference)
-- [📚 Citation](#-citation)
+- [🧠 Overview](#🧠-overview)
+- [🏗️ Data Construction Pipeline](#🏗️-data-construction-pipeline)
+- [📊 Results](#📊-results)
+- [🧪 Inference](#🧪-inference)
+- [📚 Citation](#📚-citation)
 
 
 
@@ -91,65 +91,14 @@ Here's a breakdown of our folder structure:
 Refer to [Huggingface Dataset and Benchmark](https://huggingface.co/datasets/MBZUAI/cass) for details on how to load the dataset and benchmark.
 
 ## 📊 Results
-<table> 
-  <thead> 
-  <tr> 
-    <th>Group</th> 
-    <th>Model</th> 
-    <th>Assembly Accuracy (%)</th> 
-    <th>Source Accuracy (%)</th> 
-  </tr> 
-  </thead> 
-  <tbody> 
-    <tr> 
-      <td rowspan="2">Tools</td> 
-      <td>ZLUDA</td> 
-      <td>2.5%</td> 
-      <td>27.5%</td> 
-    </tr> 
-    <tr> 
-      <td>Hipify</td> 
-      <td>–</td> 
-      <td>87.5%</td> 
-    </tr> 
-    <tr> 
-      <td rowspan="4">LLMs</td> 
-      <td>GPT-4o</td> <td>0%</td> 
-      <td>90.0%</td> 
-    </tr> 
-    <tr> 
-      <td>Gemini-2.0-Flash</td> 
-      <td>0%</td> 
-      <td>80.0%</td> 
-    </tr> 
-    <tr> 
-      <td>Claude-3.7</td> 
-      <td>0%</td> 
-      <td>90.0%</td> 
-    </tr> 
-    <tr> 
-      <td>Qwen2.5-Coder-32B</td> 
-      <td>25.0%</td> 
-      <td>85.0%</td> 
-    </tr> 
-    <tr> 
-      <td rowspan="3">Ours</td> 
-      <td><b>CASS-1.5B</b></td> 
-      <td>12.5%</td> 
-      <td>90.0%</td> 
-    </tr> 
-    <tr> 
-      <td><b>CASS-3B</b></td> 
-      <td>20.0%</td> 
-      <td>92.5%</td> 
-    </tr> 
-    <tr style="background-color: #d6f5d6;">
-      <td><b>CASS-7B</b></td> 
-      <td><b>37.5%</b></td> 
-      <td><b>95.0%</b></td> 
-    </tr> 
-  </tbody> 
-</table>
+
+<p align="center">
+  <img src="assets/main-results.png" width="90%" alt="CASS Main Results" />
+</p>
+
+> Performance of different models on our CASS-Bench. Bold cells refer to the best results.
+
+
 
 ## 🧪 Inference
 We provide a simple inference script to run the CASS models. The script supports both source-to-source and assembly-to-assembly translation. 
