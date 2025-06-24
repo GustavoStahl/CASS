@@ -50,24 +50,33 @@ We introduce CASS, the first large-scale dataset and model suite for cross-archi
 
 ---
 
-This is the official repository for the CASS: **C**UDA-**A**MD A**ss**embly paper. Since the methodology used to construct our dataset consists of multiple independent modules, we have organized the scripts into separate folders to ensure clarity and modularity. For questions regarding individual components (e.g., Synthetic Pipeline, OpenCL Pipeline), please refer to their respective directories for tailored instructions.
 
-## Hardware setup
+## Data Construction Pipeline
+Since the methodology used to construct our dataset consists of multiple independent modules, we have organized the scripts into separate folders to ensure clarity and modularity. For questions regarding individual components (e.g., Synthetic Pipeline, OpenCL Pipeline), please refer to their respective directories for tailored instructions.
+
+## Compiler Stack
+
+<p align="center">
+  <img src="assets/gpu-compiler-stack.png" width="90%" alt="CASS Overview" />
+</p>
+
+
+    The Nvidia (left) and AMD (right) stacks illustrate the compilation process for CUDA and HIP. Blue denotes device-side steps; green denotes host-side steps. Nvidia’s stack is opaque; accessing device assembly (SASS) requires first compiling to binary, then using cuobjdump. In contrast, AMD’s process is transparent, allowing direct inspection and modification of device assembly (RDNA3) before host integration.
+
+### Hardware setup
 Our scripts require a GPU to be present in the user’s machine. The CUDA portion of our pipeline requires an NVIDIA GPU, while the HIP portion requires an AMD GPU. The provided code was tested on an AMD RX 7900, an NVIDIA A100, and an NVIDIA RTX 4090.
 
-## Execution environment 
+### Execution environment 
 To ensure reproducibility, we provide a Docker container that manages all dependencies. To build and run it, execute:
 ```bash
 docker build -t transpiler .
 docker compose run transpiler
 ```
 
-## Overview
+### Subfolders
 Here's a breakdown of our folder structure:
-* stackv2_scripts: contains code for processing the Stack v2 dataset. Specifically, it fetches all available CUDA files, organizes them according to their original repository file-tree structure, clones repositories with the highest number of CUDA files, and extracts corresponding CPU-GPU assembly
-* hipify: includes code for converting CUDA files to HIP using AMD’s HIPify tool.
+* `stackv2_scripts`: contains code for processing the Stack v2 dataset. Specifically, it fetches all available CUDA files, organizes them according to their original repository file-tree structure, clones repositories with the highest number of CUDA files, and extracts corresponding CPU-GPU assembly
+* `hipify`: includes code for converting CUDA files to HIP using AMD’s HIPify tool.
 
-## Dataset
-Our finished dataset processed using the tools available in this repository can be accessed through the following links:
-- [Dataset](https://huggingface.co/datasets/MBZUAI/cass)
-- [Benchmark](https://huggingface.co/datasets/Sarim-Hash/cass_bench_new_one)
+### Generated Data
+Refer to [Huggingface Dataset and Benchmark](https://huggingface.co/datasets/MBZUAI/cass) for details on how to load the dataset and benchmark.
