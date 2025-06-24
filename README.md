@@ -39,6 +39,14 @@
 
 - 📢 **June 2025**: Paper and inference code released!
 
+<!-- table of content -->
+## Table of Contents
+- [Overview](#overview)
+- [Data Construction Pipeline](#data-construction-pipeline)
+- [Results](#results)
+- [Inference](#inference)
+- [Citation](#citation)
+
 
 ## Overview
 
@@ -52,7 +60,7 @@ We introduce CASS, the first large-scale dataset and model suite for cross-archi
 ---
 
 
-## (1) Data Construction Pipeline
+## Data Construction Pipeline
 Since the methodology used to construct our dataset consists of multiple independent modules, we have organized the scripts into separate folders to ensure clarity and modularity. For questions regarding individual components (e.g., Synthetic Pipeline, OpenCL Pipeline), please refer to their respective directories for tailored instructions.
 
 ### Compiler Stack
@@ -82,7 +90,7 @@ Here's a breakdown of our folder structure:
 ### Generated Data
 Refer to [Huggingface Dataset and Benchmark](https://huggingface.co/datasets/MBZUAI/cass) for details on how to load the dataset and benchmark.
 
-## (2) Results
+## Results
 <table> 
   <thead> 
   <tr> 
@@ -142,7 +150,8 @@ Refer to [Huggingface Dataset and Benchmark](https://huggingface.co/datasets/MBZ
     </tr> 
   </tbody> 
 </table>
-## (3) Inference
+
+## Inference
 We provide a simple inference script to run the CASS models. The script supports both source-to-source and assembly-to-assembly translation. 
 
 ### Available Models
