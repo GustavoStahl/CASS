@@ -6,6 +6,13 @@
   <h1 style="font-size: 30px; margin: 0;"> CASS: Nvidia to AMD Transpilation with Data, Models, and Benchmark</h1>
 </div>
 
+<p align="center">
+  <a href="https://arxiv.org/abs/2505.16968"><img src="https://img.shields.io/badge/arXiv-Paper-brightgreen?style=flat-square" alt="arXiv"></a>
+  <a href="https://huggingface.co/datasets/MBZUAI/cass"><img src="https://img.shields.io/badge/🤗_Dataset-Access-green" alt="dataset"></a>
+  <a href="https://huggingface.co/collections/ahmedheakl/cass-683efb1596a1dd802de1593a"><img src="https://img.shields.io/badge/HuggingFace-Model-F9D371" alt="model"></a>
+</p>
+
+
 This is the official repository for the CASS: **C**UDA-**A**MD A**ss**embly paper. Since the methodology used to construct our dataset consists of multiple independent modules, we have organized the scripts into separate folders to ensure clarity and modularity. For questions regarding individual components (e.g., Synthetic Pipeline, OpenCL Pipeline), please refer to their respective directories for tailored instructions.
 
 ## Hardware setup
