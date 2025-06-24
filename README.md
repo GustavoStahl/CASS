@@ -136,6 +136,12 @@ We provide multiple models with multiple parameter scales.
 </table>
 
 
+## Todos
+
+- [ ] Release training 
+- [ ] Release evaluation scripts.
+
+
 ## Citation
 If you are using CASS in your research or application, please cite us using this BibTeX:
 
