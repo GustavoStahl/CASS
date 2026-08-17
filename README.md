@@ -343,10 +343,11 @@ print("Converted AMD Device Code:\n", amd_code)
 If you are using CASS in your research or application, please cite us using this BibTeX:
 
 ```bibtex
-@article{heakl2025cass,
-  title={CASS: Nvidia to AMD Transpilation with Data, Models, and Benchmark},
-  author={Heakl, Ahmed and Hashmi, Sarim and Stahl, Gustavo Bertolo and Han, Seung Hun Eddie and Khan, Salman and Mahmoud, Abdulrahman},
-  journal={arXiv preprint arXiv:2505.16968},
-  year={2025}
+@inproceedings{heakl2026cass,
+  title={Cass: Nvidia to amd transpilation with data, models, and benchmark},
+  author={Heakl, Ahmed and Stahl, Gustavo Bertolo and Hashmi, Sarim and Han, Seung Hun Eddie and Ranjan, Mukul and Kharlamova, Arina and Khan, Salman and Mahmoud, Abdulrahman},
+  booktitle={Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages={34489--34508},
+  year={2026}
 }
 ```
